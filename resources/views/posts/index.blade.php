@@ -1,6 +1,8 @@
 @extends("layouts.app")
 @section("title", "Tous les articles")
 @section("content")
+@vite(['resources/css/posts.css', 'resources/js/posts.js'])
+
 
     <h1>Tous les articles</h1>
 
@@ -14,7 +16,7 @@
         <thead>
         <tr>
             <th>Titre</th>
-            <th colspan="2" >Opérations</th>
+            <th>Opérations sur les posts</th>
         </tr>
         </thead>
         <tbody>
@@ -25,19 +27,21 @@
                     <!-- Lien pour afficher un Post : "posts.show" -->
                     <a href="{{ route('posts.show', $post) }}" title="Lire l'article" >{{ $post->title }}</a>
                 </td>
+
                 <td>
-                    <!-- Lien pour modifier un Post : "posts.edit" -->
                     <a href="{{ route('posts.edit', $post) }}" title="Modifier l'article" >Modifier</a>
                 </td>
+
                 <td>
-                    <!-- Formulaire pour supprimer un Post : "posts.destroy" -->
-                    <form method="POST" action="{{ route('posts.destroy', $post) }}" >
-                        <!-- CSRF token -->
-                        @csrf
-                        <!-- <input type="hidden" name="_method" value="DELETE"> -->
-                        @method("DELETE")
-                        <input type="submit" value="x Supprimer" >
-                    </form>
+                    <button><!-- Formulaire pour supprimer un Post : "posts.destroy" -->
+                        <form method="POST" action="{{ route('posts.destroy', $post) }}" >
+                            <!-- CSRF token -->
+                            @csrf
+                            <!-- <input type="hidden" name="_method" value="DELETE"> -->
+                            @method("DELETE")
+                            <input type="submit" value="Supprimer" >
+                        </form>
+                    </button>
                 </td>
             </tr>
         @endforeach

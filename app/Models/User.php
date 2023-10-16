@@ -21,7 +21,23 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role', // Ajoutez la colonne "role"
     ];
+
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($user) {
+            $user->role = 'user';
+        });
+    }
+
 
     /**
      * The attributes that should be hidden for serialization.

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Models\Post;
+use Illuminate\Session\Store;
 
 class PostController extends Controller
 {
@@ -24,7 +25,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view("posts.edit");
+        return view("posts.create");
     }
 
     /**
@@ -32,15 +33,10 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
-        $this->validate($request, [
-            'title' => 'bail|required|string|max:255',
-            "content" => 'bail|required',
-        ]);
+        $data = $request->validated();
+        $data['user_id'] = auth()->id(); // Ajoute l'ID de l'utilisateur actuellement connecté
 
-        Post::create([
-            "title" => $request->title,
-            "content" => $request->content,
-        ]);
+        Post::create($data);
 
         return redirect(route("posts.index"));
     }

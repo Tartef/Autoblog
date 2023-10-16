@@ -3,6 +3,10 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Validator;
+use App\Models\User;
+
+
 
 class StorePostRequest extends FormRequest
 {
@@ -13,13 +17,10 @@ class StorePostRequest extends FormRequest
 
     public function rules(): array
     {
-        // return [
-        //     'title' => 'bail|required|string|max:255',
-        //     "content" => 'bail|required',
-        // ];
         return [
             'title' => ['bail', 'required', 'string', 'max:255'],
             "content" => ['bail', 'required'],
         ];
     }
+
 }

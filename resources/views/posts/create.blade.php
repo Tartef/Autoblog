@@ -1,18 +1,18 @@
 @extends("layouts.app")
 @section("title", "Editer un post")
 @section("content")
-@vite(['resources/css/posts.css', 'resources/js/posts.js'])
+    @vite(['resources/css/posts.css', 'resources/js/posts.js'])
 
 
 
-    <h1>Editer un post</h1>
+    <h1>Créer un post</h1>
 
     <!-- Si nous av
     ons un Post $post -->
     @if (isset($post))
 
         <!-- Le formulaire est géré par la route "posts.update" -->
-        <form method="POST" action="{{ route('posts.update', $post) }}" enctype="multipart/form-data" >
+        <form method="POST" action="{{ route('posts.create', $post) }}" enctype="multipart/form-data" >
 
             <!-- <input type="hidden" name="_method" value="PUT"> -->
             @method('PUT')
