@@ -6,6 +6,8 @@ use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Models\Post;
 use Illuminate\Session\Store;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
 {
@@ -14,7 +16,7 @@ class PostController extends Controller
      */
     public function index(): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
     {
-        $posts = Post::latest()->get();
+        $posts = Post::latest()->paginate(3);
 
         // On transmet les Post à la vue
         return view("posts.index", compact("posts"));
@@ -34,7 +36,11 @@ class PostController extends Controller
     public function store(StorePostRequest $request)
     {
         $data = $request->validated();
-        $data['user_id'] = auth()->id(); // Ajoute l'ID de l'utilisateur actuellement connecté
+        $data = [
+            "title" => $request->title,
+            "content" => $request->content,
+            'user_id' =>$request->user()->id,
+        ];
 
         Post::create($data);
 
@@ -54,6 +60,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
+        $this->authorize('update', $post);
         return view("posts.edit", compact("post"));
     }
 
@@ -81,7 +88,7 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        // On les informations du $post de la table "posts"
+        $this->authorize('delete', $post);
         $post->delete();
 
         // Redirection route "posts.index"

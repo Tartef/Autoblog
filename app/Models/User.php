@@ -21,11 +21,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role', // Ajoutez la colonne "role"
     ];
 
 
-    public function posts()
+    public function post()
     {
         return $this->hasMany(Post::class);
     }
